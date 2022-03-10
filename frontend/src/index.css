@@ -1,0 +1,19 @@
+
+  body {
+    margin: 0;
+    /* Fondo De la pantalla */
+    background: linear-gradient(to bottom, rgba(69, 166, 220, 73%), rgba(156, 20, 175, 61%), rgba(164, 7, 171, 53%)), 
+                linear-gradient(to right, rgba(0, 132, 255, 0.507), rgba(10, 53, 139, 0.568), rgba(16, 0, 63, 0.596)), 
+                url('../Images/back.jpg');
+              
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}

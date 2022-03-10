@@ -1,0 +1,58 @@
+  body {
+    margin: 0;
+    /* Fondo De la pantalla */
+    background: linear-gradient(to bottom, rgba(172, 3, 31, 0.918), rgba(124, 47, 60, 0.856), rgba(255, 255, 255, 0.596)),
+      url('../Images/back.jpg');
+
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  svg, h1 {
+    color: white;
+    text-decoration: white;
+  }
+
+
+
+  .icons8-lock { 
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    padding: 8%;
+    margin-bottom: 5% ;
+    background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHg9IjBweCIgeT0iMHB4Igp3aWR0aD0iNTAiIGhlaWdodD0iNTAiCnZpZXdCb3g9IjAgMCAxNzIgMTcyIgpzdHlsZT0iIGZpbGw6IzAwMDAwMDsiPjxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0ibm9uemVybyIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1saW5lY2FwPSJidXR0IiBzdHJva2UtbGluZWpvaW49Im1pdGVyIiBzdHJva2UtbWl0ZXJsaW1pdD0iMTAiIHN0cm9rZS1kYXNoYXJyYXk9IiIgc3Ryb2tlLWRhc2hvZmZzZXQ9IjAiIGZvbnQtZmFtaWx5PSJub25lIiBmb250LXdlaWdodD0ibm9uZSIgZm9udC1zaXplPSJub25lIiB0ZXh0LWFuY2hvcj0ibm9uZSIgc3R5bGU9Im1peC1ibGVuZC1tb2RlOiBub3JtYWwiPjxwYXRoIGQ9Ik0wLDE3MnYtMTcyaDE3MnYxNzJ6IiBmaWxsPSJub25lIj48L3BhdGg+PGcgZmlsbD0iI2ZmZmZmZiI+PHBhdGggZD0iTTg2LDEwLjMyYy0yMi44MzAzMSwwIC00MS4yOCwxOC40NDk2OSAtNDEuMjgsNDEuMjh2MTcuMmgtMTMuNzZjLTUuODQ1MzEsMCAtMTAuMzIsNC40NzQ2OSAtMTAuMzIsMTAuMzJ2ODIuNTZjMCw1Ljg0NTMxIDQuNDc0NjksMTAuMzIgMTAuMzIsMTAuMzJoMTEwLjA4YzUuODQ1MzEsMCAxMC4zMiwtNC40NzQ2OSAxMC4zMiwtMTAuMzJ2LTgyLjU2YzAsLTUuODQ1MzEgLTQuNDc0NjksLTEwLjMyIC0xMC4zMiwtMTAuMzJoLTEzLjc2di0xNy4yYzAsLTIyLjgzMDMxIC0xOC40NDk2OSwtNDEuMjggLTQxLjI4LC00MS4yOHpNODYsMTcuMmMxOS4xNDg0NCwwIDM0LjQsMTUuMjUxNTYgMzQuNCwzNC40djE3LjJoLTY4Ljh2LTE3LjJjMCwtMTkuMTQ4NDQgMTUuMjUxNTYsLTM0LjQgMzQuNCwtMzQuNHpNODYsMTAzLjJjNS44NDUzMSwwIDEwLjMyLDQuNDc0NjkgMTAuMzIsMTAuMzJjMCwzLjA5MDYzIC0xLjM3MDYyLDUuODA1IC0zLjQ0LDcuNTI1djkuNjc1YzAsMy43ODkzOCAtMy4wOTA2Miw2Ljg4IC02Ljg4LDYuODhjLTMuNzg5MzcsMCAtNi44OCwtMy4wOTA2MiAtNi44OCwtNi44OHYtOS42NzVjLTIuMDY5MzcsLTEuNzIgLTMuNDQsLTQuNDM0MzcgLTMuNDQsLTcuNTI1YzAsLTUuODQ1MzEgNC40NzQ2OSwtMTAuMzIgMTAuMzIsLTEwLjMyeiI+PC9wYXRoPjwvZz48L2c+PC9zdmc+') 50% 50% no-repeat;
+    background-size: 100%; }
+
+  .all {
+    position: fixed;
+    width: 100%;
+    padding-top: 10px;
+    padding-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  @media (max-width: 575.98px) {
+    .HideOnMobile {
+      display: none;
+    }
+
+    .ShowOnMobile {
+      display: initial;
+    }
+  }
+
+  @media (min-width: 576px) {
+    .HideOnMobile {
+      display: initial;
+    }
+
+    .ShowOnMobile {
+      display: none;
+    }
+  }
