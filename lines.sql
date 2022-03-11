@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS Students (
     code_stu serial UNIQUE 
     name_stu VARCHAR(40) NOT NULL,
     semester INTEGER NOT NULL 
-    courses  VARCHAR(20) NOT NULL, 
+    course  VARCHAR(20) NOT NULL, 
     id_staff INTEGER,
     code_asis INTEGER,
     CONSTRAINT py_st PRIMARY KEY (id_stu),
@@ -161,7 +161,30 @@ end
 
 --- procedimiento que me dice cuantos cursos tiene un estudiante
 
+create or replace procedure pry_sum_cursos(
+    INT
+) LANGUAGE 'plpgsql' AS
+$$
+BEGIN
+    select count($1) from Students; 
+END;
+$$
+
+CALL pry_sum_cursos(2021233);
+
 --- procedimiento que me dice cuantos cursos ha creado el profesor
+
+
+create or replace procedure pry_sum_staf(
+    INT
+) LANGUAGE 'plpgsql' AS
+$$
+BEGIN
+    select count($1) from Courses; 
+END;
+$$
+
+CALL pry_sum_cursos(2021233);
 
 --- vista
 
