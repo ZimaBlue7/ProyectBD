@@ -151,13 +151,26 @@ create trigger trg_trigger_test_ins before insert on user
 for each row
 begin
     if new.username REGEXP '^[0-9]*$' then
-        signal sqlstate '45000' set message_text = 'Invalid username containing only digits';
-    end if;
-end
+        signal sqlstate '45000' set message_text = 'Invalid username containing only digits'
+    end if
+end;
 
 --- trigger que valida la existencia unica de los alumnos tambien por codigo
 
+
+
 --- trigger que no deja a un estudiante matricular mas de 8 cursos
+
+create trigger cu_stu_ins
+before insert on Students
+from Students
+for each row 
+begin
+    when CALL pry_sum_cursos(new.id) = 8 then
+    raise exception 'Cannot be insert more courses, you are in the limit'
+    return NULL;
+END;
+
 
 --- procedimiento que me dice cuantos cursos tiene un estudiante
 
@@ -166,7 +179,9 @@ create or replace procedure pry_sum_cursos(
 ) LANGUAGE 'plpgsql' AS
 $$
 BEGIN
-    select count($1) from Students; 
+    select count(code_stu) 
+    from Students
+    where code_stu = $1;
 END;
 $$
 
@@ -180,13 +195,19 @@ create or replace procedure pry_sum_staf(
 ) LANGUAGE 'plpgsql' AS
 $$
 BEGIN
-    select count($1) from Courses; 
+    select count(id_staff) 
+    from Courses
+    where id_staff = $1;
 END;
 $$
 
-CALL pry_sum_cursos(2021233);
+CALL pry_sum_stad(2123321);
 
---- vista
+--- vista para sustentar el reporte de asistencia y respuestas de los estudiantes
+
+CREATE VIEW vw_re_stas AS
+SELECT st.code_asis as "codeStudent", an.id_stu as "AnswerStudent"
+from Students st, Answer an; 
 
 
 
