@@ -147,13 +147,6 @@ CREATE TABLE IF NOT EXISTS Answer(
 --- Creacion de disparadores, procedimientos y vista.
 
 --- trigger que me valida que no se puedan poner numeros en los nombres
-create trigger trg_trigger_test_ins before insert on user
-for each row
-begin
-    if new.username REGEXP '^[0-9]*$' then
-        signal sqlstate '45000' set message_text = 'Invalid username containing only digits'
-    end if
-end;
 
 --- trigger que valida la existencia unica de los alumnos tambien por codigo
 
