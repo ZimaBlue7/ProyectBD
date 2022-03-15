@@ -146,11 +146,25 @@ CREATE TABLE IF NOT EXISTS Answer(
 
 --- Creacion de disparadores, procedimientos y vista.
 
---- trigger que me valida que no se puedan poner numeros en los nombres
+--- trigger que no permite que un estudiante este en el semestre 12 
 
---- trigger que valida la existencia unica de los alumnos tambien por codigo
+create or replace TRIGGER st_stu_up 
+after update of semester on Students
+for each row
+    when NEW.semester > 12
+begin 
+    delete from Students
+    where code_stu = new.code_stu
+end;
 
+--- trigger que no deja cambiar el nombre a un estudiante (por lo que tiene que ser preciso)
 
+create or replace trigger stu_in_id 
+before update of name_stu on Students
+for each row 
+    begin 
+        raise exception 'Cannot be update the name student'
+    end;
 
 --- trigger que no deja a un estudiante matricular mas de 8 cursos
 
