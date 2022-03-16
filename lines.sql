@@ -1,20 +1,39 @@
-CREATE database Probd --- tabla admin 
+CREATE database Probd; 
+--- tabla admin 
+
 CREATE TABLE IF NOT EXISTS Admin(
     id INTEGER UNIQUE,
     name_ad VARCHAR(30) NOT NULL,
     code_asis INTEGER,
     CONSTRAINT py_ad PRIMARY KEY (id)
 );
+
+INSERT INTO Admin (id,name_ad,code_asis) 
+VALUES (12026227, 'Michael Pena',1001),
+    (12098755,'John Kyles Rolling',1002),
+    (19800545,'Scarlet Brighman',1003),
+    (13479050,'Samantha Sousa Silva',1004),
+    (19284029,'Thomas Gabriel Marquez',1005);
+
+
 --- tabla personal(Staff) 
 CREATE TABLE IF NOT EXISTS Staff(
     id INTEGER UNIQUE,
     name_s VARCHAR(40) NOT NULL,
-    speciality VARCHAR(10) NOT NULL,
+    speciality VARCHAR(20) NOT NULL,
     id_proof INTEGER,
     id_ques INTEGER,
     CONSTRAINT py_st PRIMARY KEY (id),
     CONSTRAINT py_sq FOREIGN KEY (id_ques) REFERENCES Question(id) ON DELETE CASCADE
 );
+
+INSERT INTO Staff (id,name_s,speciality,id_proof,id_ques)
+VALUES (20832768,'Jefferson Amado','Ing Sistemas',101,1),
+    (20098712,'John Sanabria', 'Ing Electronico',102,2),
+    (21928827,'Paola Ramirez','Magis Des.Soft',103,3),
+    (27716352,'Kyle Jhonson', 'Ing AI',104,4),
+    (21182111,'Leo Viviana Zuluaga','Ing Sistemas',105,1);
+
 --- tabla curso (course)
 CREATE TABLE IF NOT EXISTS course(
     id INTEGER UNIQUE,
@@ -23,14 +42,30 @@ CREATE TABLE IF NOT EXISTS course(
     CONSTRAINT py_co PRIMARY KEY (id),
     CONSTRAINT py_cs FOREIGN KEY (id_staff) REFERENCES Staff(id) ON DELETE CASCADE
 );
+
+INSERT INTO course (id,name_co, id_staff) 
+VALUES (2134,'Fund de Redes',20832768),
+    (1983,'Fisica 2',20098712),
+    (9823,'Diseño Interfaces',21928827),
+    (5736,'Vida artificial',27716352),
+    (3298,'Fund Program',21182111);
+
 --- tabla prueba (Proof)
 CREATE TABLE IF NOT EXISTS Proof(
     id INTEGER UNIQUE,
-    name_pr VARCHAR(10) NOT NULL,
+    name_pr VARCHAR(15) NOT NULL,
     date_pub DATE NOT NULL,
     status INTEGER NOT NULL,
     CONSTRAINT py_pr PRIMARY KEY (id)
 );
+
+INSERT INTO Proof (id,name_pr,date_pub) 
+VALUES (101,'Quiz Int red','21-Ene-2022'),
+    (102,'Exam Movien','28-Feb-2022'),
+    (103,'Introdu Asig', '2-Feb-2022'),
+    (104, 'Thinking Art','19-Dic-2021'),
+    (105, 'Parcial Funcion','1-Mar-2022');
+
 --- tabla Asistencia (assistance)
 CREATE TABLE IF NOT EXISTS Assistance(
     code INTEGER UNIQUE,
@@ -42,18 +77,34 @@ CREATE TABLE IF NOT EXISTS Assistance(
     CONSTRAINT py_ap FOREIGN KEY (id_proof) REFERENCES Proof(id) ON DELETE CASCADE,
     CONSTRAINT py_ac FOREIGN KEY (id_course) REFERENCES Course(id) ON DELETE CASCADE
 );
+
+INSERT INTO Assistance (code,name_as,course_ins,id_proof,id_course) 
+VALUES (1,'Assi1','Fund de Redes',101,2134),
+    (2,'Assi2','Fisica 2',102,1983),
+    (3,'Assi3','Diseño Interfaces',103,9823),
+    (4,'Assi4','Vida artificial',104,5736),
+    (5,'Assi5','Fund Program',105,3298);
+
 --- tabla estudiantes (students)
 CREATE TABLE IF NOT EXISTS Students (
     code serial UNIQUE,
     name_stu VARCHAR(40) NOT NULL,
     semester INTEGER NOT NULL,
-    courses VARCHAR(20) NOT NULL,
+    course VARCHAR(30) NOT NULL,
     id_staff INTEGER,
     code_asis INTEGER,
     CONSTRAINT py_stu PRIMARY KEY (code),
     CONSTRAINT py_sts FOREIGN KEY (id_staff) REFERENCES Staff(id) ON DELETE CASCADE,
     CONSTRAINT py_sa FOREIGN KEY (code_asis) REFERENCES Assistance(code) ON DELETE CASCADE
 );
+
+INSERT INTO Students (code,name_stu,semester,course,id_staff,code_asis) 
+VALUES (39218724,'Stiven Sphilberg',5,'Fund de Redes',20832768,1),
+    (38791089,'Martin Scorsesse',3,'Fisica 2',20098712,2),
+    (30928172,'Stanley Kubrick',6,'Diseño de Interfaces',21928827,3),
+    (31982782,'Sofia Coppola',8,'Vida Artificial',27716352,4),
+    (32109827,'Chloe Zhao',1,'Funda Prom',21182111,5);
+
 --- tabla users
 CREATE TABLE IF NOT EXISTS Users (
     id serial UNIQUE,
@@ -69,6 +120,14 @@ CREATE TABLE IF NOT EXISTS Users (
     CONSTRAINT py_ust FOREIGN KEY (id_staff) REFERENCES Staff(id) ON DELETE CASCADE,
     CONSTRAINT py_ua FOREIGN KEY (id_admin) REFERENCES Admin(id) ON DELETE CASCADE
 );
+
+INSERT INTO Users (id,name_u, password, description, email, id_stu, id_staff, id_admin)
+VALUES (001,'Pedro Pascal',123456,'Admin secundario','pedro@gmail.com',39218724,20832768,12026227),
+    (),
+    (),
+    (),
+    ();
+
 --- tabla pregunta (question)
 CREATE TABLE IF NOT EXISTS Question(
     id INTEGER UNIQUE,
@@ -77,6 +136,14 @@ CREATE TABLE IF NOT EXISTS Question(
     CONSTRAINT py_qu PRIMARY KEY (id),
     CONSTRAINT py_qol FOREIGN KEY (id_opli) REFERENCES OptionList(id) ON DELETE CASCADE
 );
+
+INSERT INTO Question(id,description, id_opli) 
+VALUES (1,'De que trata el modelo relacional',1),
+    (2,'Como funciona una conexion',2),
+    (3,'Que es Scrum',3),
+    (4,'Explique una condicion de retorno',4),
+    (5,'Como se crea una variable',5); 
+
 --- tabla lista de opciones (OptionList)
 CREATE TABLE IF NOT EXISTS OptionList(
     id INTEGER,
@@ -85,6 +152,14 @@ CREATE TABLE IF NOT EXISTS OptionList(
     CONSTRAINT py_ol PRIMARY KEY (id),
     CONSTRAINT py_olo FOREIGN KEY (id_o) REFERENCES Option (id) ON DELETE CASCADE
 );
+
+INSERT INTO OptionList(id,type_ol,id_o) 
+VALUES (1,'open',1),
+    (2,'open',2),
+    (3,'closed',3),
+    (4, 'Open',4),
+    (5,'Closed',5);
+
 --- tabla opcion (Option)
 CREATE TABLE IF NOT EXISTS Option(
     id INTEGER UNIQUE,
@@ -93,6 +168,13 @@ CREATE TABLE IF NOT EXISTS Option(
     tof VARCHAR(5),
     CONSTRAINT py_op PRIMARY KEY (id)
 );
+
+INSERT INTO Option(id,open) VALUES (1,'Modelo de tablas');
+INSERT INTO Option(id,multiple) VALUES (2,'A');
+INSERT INTO option(id,tof) VALUES (3, 'True');
+INSERT INTO Option(id,open) VALUES (4,'Return 1');
+INSERT INTO Option(id,multiple) VALUES (5 'D');
+
 --- tabla respuesta (Answer)
 CREATE TABLE IF NOT EXISTS Answer(
     id INTEGER,
@@ -102,6 +184,14 @@ CREATE TABLE IF NOT EXISTS Answer(
     CONSTRAINT py_an PRIMARY KEY (id),
     CONSTRAINT py_os FOREIGN KEY (id_stu) REFERENCES Students(code) ON DELETE CASCADE
 );
+
+INSERT INTO Answer(id,id_stu, choose_op,date_op) 
+VALUES (11,39218724,'','21-Ene-2022'),
+    (22,38791089,'','28-Feb-2022'),
+    (33,30928172,'','2-Feb-2022'),
+    (44,31982782,'','19-Dic-2021'),
+    (55,32109827,'','1-Mar-2022');
+
 --- Creacion de disparadores, procedimientos y vista.
 --- trigger que no permite que un estudiante este en el semestre 12 
 create or replace TRIGGER st_stu_up
