@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS Users (
 --- tabla pregunta (question)
 CREATE TABLE IF NOT EXISTS Question(
     id INTEGER UNIQUE,
-    descrption VARCHAR(50) NOT NULL,
+    description VARCHAR(50) NOT NULL,
     id_opli INTEGER,
     CONSTRAINT py_qu PRIMARY KEY (id),
     CONSTRAINT py_qol FOREIGN KEY (id_opli) REFERENCES OptionList(id) ON DELETE CASCADE
