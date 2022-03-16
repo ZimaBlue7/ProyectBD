@@ -38,14 +38,15 @@ CREATE TABLE IF NOT EXISTS Assistance(
     course_ins VARCHAR(20) NOT NULL,
     id_proof INTEGER,
     id_course INTEGER,
-    CONSTRAINT py_co PRIMARY KEY (code),
+    CONSTRAINT py_cou PRIMARY KEY (code),
     CONSTRAINT py_ap FOREIGN KEY (id_proof) REFERENCES Proof(id) ON DELETE CASCADE,
     CONSTRAINT py_ac FOREIGN KEY (id_course) REFERENCES Course(id) ON DELETE CASCADE
 );
 --- tabla estudiantes (students)
 CREATE TABLE IF NOT EXISTS Students (
     code serial UNIQUE name_stu VARCHAR(40) NOT NULL,
-    semester INTEGER NOT NULL courses VARCHAR(20) NOT NULL,
+    semester INTEGER NOT NULL,
+    courses VARCHAR(20) NOT NULL,
     id_staff INTEGER,
     code_asis INTEGER,
     CONSTRAINT py_st PRIMARY KEY (code),
@@ -81,7 +82,7 @@ CREATE TABLE IF NOT EXISTS OptionList(
     type_ol VARCHAR(10) NOT NULL,
     id_o INTEGER,
     CONSTRAINT py_ol PRIMARY KEY (id),
-    CONSTRAINT py_olo FOREIGN KEY (id_o) REFERENCES Option (id_op) ON DELETE CASCADE
+    CONSTRAINT py_olo FOREIGN KEY (id_o) REFERENCES Option (id) ON DELETE CASCADE
 );
 --- tabla opcion (Option)
 CREATE TABLE IF NOT EXISTS Option(
