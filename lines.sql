@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS Students (
     courses VARCHAR(20) NOT NULL,
     id_staff INTEGER,
     code_asis INTEGER,
-    CONSTRAINT py_st PRIMARY KEY (code),
+    CONSTRAINT py_stu PRIMARY KEY (code),
     CONSTRAINT py_sts FOREIGN KEY (id_staff) REFERENCES Staff(id) ON DELETE CASCADE,
     CONSTRAINT py_sa FOREIGN KEY (code_asis) REFERENCES Assistance(code) ON DELETE CASCADE
 );
@@ -65,9 +65,9 @@ CREATE TABLE IF NOT EXISTS Users (
     id_staff INTEGER,
     id_admin INTEGER,
     CONSTRAINT py_us PRIMARY KEY (id),
-    CONSTRAINT py_us FOREIGN KEY (id_stu) REFERENCES Students(code) ON DELETE CASCADE,
+    CONSTRAINT py_user FOREIGN KEY (id_stu) REFERENCES Students(code) ON DELETE CASCADE,
     CONSTRAINT py_ust FOREIGN KEY (id_staff) REFERENCES Staff(id) ON DELETE CASCADE,
-    CONSTRAINT py_ua FOREIGN KEY (id_admin) REFERENCES Admin(id_ad) ON DELETE CASCADE
+    CONSTRAINT py_ua FOREIGN KEY (id_admin) REFERENCES Admin(id) ON DELETE CASCADE
 );
 --- tabla pregunta (question)
 CREATE TABLE IF NOT EXISTS Question(
@@ -106,8 +106,8 @@ CREATE TABLE IF NOT EXISTS Answer(
 --- trigger que no permite que un estudiante este en el semestre 12 
 create or replace TRIGGER st_stu_up
 after
-update of semester on Students for each row
-    when NEW.semester > 12 begin
+update OF semester ON Students FOR EACH ROW
+    when new.semester > 12 begin
 delete from Students
 where code = new.code
 end;
