@@ -44,7 +44,8 @@ CREATE TABLE IF NOT EXISTS Assistance(
 );
 --- tabla estudiantes (students)
 CREATE TABLE IF NOT EXISTS Students (
-    code serial UNIQUE name_stu VARCHAR(40) NOT NULL,
+    code serial UNIQUE,
+    name_stu VARCHAR(40) NOT NULL,
     semester INTEGER NOT NULL,
     courses VARCHAR(20) NOT NULL,
     id_staff INTEGER,
