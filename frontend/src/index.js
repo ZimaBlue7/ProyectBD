@@ -1,12 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-//import './index.css';
 import Login from './Pages/Login';
+import Staff from './Pages/Staff';
+import Admin from './Pages/Admin';
+import Student from './Pages/Students';
+import {BrowserRouter as Router,Route, Routes} from "react-router-dom";
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Login />
+    <Router>
+        <Routes>
+          <Route path='/' element={<Login/>}/>
+          <Route path='/staff' element={<Staff/>}/>
+          <Route path='/admin' element={<Admin/>}/>
+          <Route path='/students' element={<Student/>}/>
+        </Routes>
+      </Router>
   </React.StrictMode>,
   document.getElementById('root')
 );
