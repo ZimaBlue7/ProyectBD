@@ -2,6 +2,14 @@
 import { styled, useTheme } from '@mui/material/styles';
 import React, { useState } from 'react';
 import ListItemButton from '@mui/material/ListItemButton';
+
+import "../Styles/Inventario/inventario.css";
+import "../Styles/Inventario/App.css";
+import "../Styles/Inventario/mediaProductos.css";
+
+import InputProducto from "../Components/InputProducto.js";
+import ListProducto from "../Components/ListProducto.js";
+
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar from '@mui/material/AppBar';
@@ -26,6 +34,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import image from "../Images/backa.jpg";
 import styledt from 'styled-components';
 import { Helmet } from 'react-helmet'
+import Container from "@mui/material/Container";
+import Link from "@mui/material/Link";
 
 const TITLE = 'Administrador'
 
@@ -127,6 +137,18 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 	}),
 );
 
+function Copyright(props) {
+	return (
+	  <Typography variant="body2" color="common.white" align="center" {...props}>
+		{"Copyright © "}
+		<Link color="inherit" href="https://mui.com/">
+		  Attendance
+		</Link>{" "}
+		{new Date().getFullYear()}
+		{"."}
+	  </Typography>
+	);
+  }
 
 export default function Home() {
 	const theme = useTheme();
@@ -152,6 +174,7 @@ export default function Home() {
 	};
 
 	return (
+		<Container component="main" maxWidth="s">
 		<StyledBody>
 		<Helmet><title>{TITLE}</title> </Helmet>
 		<Box sx={{ display: 'flex' }}>
@@ -204,9 +227,21 @@ export default function Home() {
 					<ListItemText primary="Cerrar sesión" />
 				</ListItemButton>
 				</List>
-				<Divider />			
+				<Divider />		
 			</Drawer>
+			
+			<div className="insertarD">
+          
+        </div>
+
+        <section className="inventario">
+          <InputProducto />
+          <ListProducto />
+        </section>
+
 		</Box>
 		</StyledBody>
+		<Copyright sx={{ mt: 8, mb: 4 }} />
+		</Container>
 	);
 }
