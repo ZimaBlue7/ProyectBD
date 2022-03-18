@@ -4,27 +4,20 @@ var router = express.Router();
 /* Admin */
 const {
   getAdmin,
-  crearAdmin,
-  //actualizarAdmin,
-  //eliminarAdmin,
-  //crearStudent,
-  //crearStaff
+  autenticarUsers,
+  addAdmin,
+  addStaff,
+  addStudents,
+  updateAdmin,
+  eliminarAdmin
 } = require("../controllers/task.controller");
 
-router.get("/admin", getAdmin);
-router.get("/adadmin", crearAdmin);
-
-/*router.get("/admin", (req, res) => {
-  console.log("admin");
-  admin_model
-    .getAdmin()
-    .then((response) => {
-      res.status(200).send(response);
-      res.send("admin");
-    })
-    .catch((error) => {
-      res.status(500).send(error);
-    });
-});*/
+router.get("/admin/", getAdmin);
+router.post('/admin/', autenticarUsers);
+router.post('/administrador/', addAdmin);
+router.post('/personal/', addStaff);
+router.post('/estudiante/', addStudents);
+router.put('/admin/:id', updateAdmin);
+router.delete('/admin/:id', eliminarAdmin);
 
 module.exports = router;

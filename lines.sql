@@ -62,6 +62,22 @@ CREATE TABLE IF NOT EXISTS Assistance(
     CONSTRAINT py_ap FOREIGN KEY (id_proof) REFERENCES Proof(id) ON DELETE CASCADE,
     CONSTRAINT py_ac FOREIGN KEY (id_course) REFERENCES Course(id) ON DELETE CASCADE
 );
+
+CREATE TABLE matriculaStd(
+    id SERIAL,
+    code_std INTEGER,
+    code_cur INTEGER,
+    CONSTRAINT py_mat PRIMARY KEY (id),
+    CONSTRAINT py_codestd FOREIGN KEY (code_std) REFERENCES Students(code) ON DELETE CASCADE,
+    CONSTRAINT py_code_cu FOREIGN KEY (code_cur) REFERENCES Course(id) ON DELETE CASCADE
+);
+
+INSERT INTO matriculaStd (code_std, code_cur)
+VALUES (2025987, 2134), (2026223, 2134),
+    (2025987, 5736),
+    (2026223, 3298),
+    (2026223, 9823);
+
 INSERT INTO Assistance (code, name_as, course_ins, id_proof, id_course)
 VALUES (1, 'Assi1', 'Fund de Redes', 101, 2134),
     (2, 'Assi2', 'Fisica 2', 102, 1983),

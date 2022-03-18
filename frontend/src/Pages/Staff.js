@@ -188,10 +188,6 @@ export default function Home() {
 						<ListItemIcon ><AccountCircleIcon className={classes.icon} /></ListItemIcon>
 						<ListItemText primary="Inscribir estudiantes" /></ListItemButton>
 				<ListItemButton>
-					<ListItemIcon>
-					<BallotIcon className={classes.icon} />
-					</ListItemIcon>
-					<ListItemText primary="Inscribirme en un curso" />
 				</ListItemButton>
 				<ListItemButton>
 					<ListItemIcon>

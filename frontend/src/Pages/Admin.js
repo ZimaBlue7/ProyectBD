@@ -7,8 +7,8 @@ import "../Styles/Inventario/inventario.css";
 import "../Styles/Inventario/App.css";
 import "../Styles/Inventario/mediaProductos.css";
 
-import InputProducto from "../Components/InputProducto.js";
-import ListProducto from "../Components/ListProducto.js";
+import AddAdmin from "../Components/AddAdmin.js";
+import ListAdmin from "../Components/ListAdmins.js";
 
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
@@ -150,15 +150,11 @@ function Copyright(props) {
 	);
   }
 
-export default function Home() {
+export default function Admin() {
 	const theme = useTheme();
-	const [open, setOpen] = React.useState(false);
-	//const [body, setBody] = useState({ username: Login.username, password: Login.password })
-	//console.log("handleChange "+ Login.username);
+	const [open, setOpen] = useState(false);
 	const classes = useStyles()
 
-
-	
 	const handleSubmit = async (e) =>{
 	
         
@@ -235,8 +231,8 @@ export default function Home() {
         </div>
 
         <section className="inventario">
-          <InputProducto />
-          <ListProducto />
+          <AddAdmin />
+          <ListAdmin />
         </section>
 
 		</Box>

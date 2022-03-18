@@ -1,11 +1,13 @@
 const pool = require("../db");
 
 const getAdmin = async (req, res) => {
-  const response = await pool.query("SELECT * FROM admin");
   try {
-    const id = response.rows;
+
+    const id = req.rows;
+    const response = await pool.query("SELECT * FROM Users WHERE description = 'Administrador' OR description = 'administrador' ");
     const usuario = response.rows;
     res.send(usuario);
+
   } catch (error) {
     res.status(500).json({
       message: "Ha ocurrido un error al tratar de obtener a al usuario",
@@ -16,26 +18,197 @@ const getAdmin = async (req, res) => {
   }
 };
 
-const crearAdmin = async (req, res) => {
-  const { id, name_ad } = req.body;
-  await pool.query("INSERT into admin (id, name_ad) VALUES ($1,$2)");
+const autenticarUsers = async (req, res) => {
   try {
-    console.log("try ");
+    
+    const {email, password} = req.body;
+
+    const usuarios = await pool.query('SELECT * FROM Users WHERE email = $1 and password = $2', [
+      email,
+      password
+    ])
+
+    res.json(usuarios.rows);
+
   } catch (error) {
     res.status(500).json({
-      message: "Ha ocurrido un error al tratar de insertar a al usuario",
+      message: "Ha ocurrido un error al tratar de autenticar a al usuario",
       data: [],
-      accion: "Insertar admin",
+      accion: "Autenticar usuario",
       error: error,
     });
   }
-};
+}
+
+const addAdmin = async (req, res) => {
+  try {
+
+    const {identificacion, nombre, password, email, description} = req.body;
+    await pool.query('INSERT INTO Users (id, name_u, password, description, email) VALUES ($1, $2, $3, $4, $5)', [
+      identificacion, 
+      nombre, 
+      password,
+      description, 
+      email
+    ]);
+
+    res.json({
+      message: 'El Admin se creo',
+      data: {
+        identificacion, 
+        nombre, 
+        password,
+        description, 
+        email
+      }
+    })
+    
+  } catch (error) {
+    res.status(500).json({
+      message: "Ha ocurrido un error al tratar de crear a al usuario",
+      data: [],
+      accion: "Crear usuario",
+      error: error,
+    });
+  }
+}
+
+const addStaff = async (req, res) => {
+  try {
+
+    const {identificacion, nombre, especialidad, password, email, description} = req.body;
+    await pool.query('INSERT INTO Users (id, name_u, password, description, email) VALUES ($1, $2, $3, $4, $5)', [
+      identificacion, 
+      nombre, 
+      password,
+      description, 
+      email
+    ]);
+
+    await pool.query('INSERT INTO Staff (id, speciality) VALUES ($1, $2)', [
+      identificacion,
+      especialidad
+    ])
+
+    res.json({
+      message: 'El staff se creo',
+      data: {
+        identificacion, 
+        nombre, 
+        especialidad, 
+        password, 
+        email, 
+        description
+      }
+    })
+    
+  } catch (error) {
+    res.status(500).json({
+      message: "Ha ocurrido un error al tratar de crear a al usuario",
+      data: [],
+      accion: "Crear usuario",
+      error: error,
+    });
+  }
+}
+
+const addStudents = async (req, res) => {
+  try {
+
+    const {identificacion, nombre, semester, programa, password, email, description} = req.body;
+    await pool.query('INSERT INTO Users (id, name_u, password, description, email) VALUES ($1, $2, $3, $4, $5)', [
+      identificacion, 
+      nombre, 
+      password,
+      description, 
+      email
+    ]);
+
+    await pool.query('INSERT INTO Students (id, semester, programa) VALUES ($1, $2, $3)', [
+      identificacion,
+      semester, 
+      programa
+    ])
+
+    res.json({
+      message: 'El Students se creo',
+      data: {
+        identificacion, 
+        nombre, 
+        semester, 
+        programa, 
+        password, 
+        email, 
+        description
+      }
+    })
+    
+  } catch (error) {
+    res.status(500).json({
+      message: "Ha ocurrido un error al tratar de crear a al usuario",
+      data: [],
+      accion: "Crear usuario",
+      error: error,
+    });
+  }
+}
+
+const updateAdmin = async (req, res) => {
+  try {
+
+    const {id} = req.params;
+    const {nombre, password, email} = req.body;
+
+    await pool.query('UPDATE Users SET name_u = $1, password = $2, email = $3 WHERE id = $4', [
+      nombre, 
+      password, 
+      email,
+      id
+    ])
+
+    res.json({
+      message: 'El administrado se actualizo',
+      data: {
+        id,
+        nombre, 
+        password, 
+        email
+      }
+    })
+    
+  } catch (error) {
+    res.status(500).json({
+      message: "Ha ocurrido un error al tratar de actualizar al administrador",
+      data: [],
+      accion: "Actualizar administrador",
+      error: error,
+    });
+  }
+}
+
+const eliminarAdmin = async (req, res) => {
+  try {
+
+    const {id} = req.params;
+
+    await pool.query('DELETE FROM Users WHERE id = $1', [id])
+    
+  } catch (error) {
+    res.status(500).json({
+      message: "Ha ocurrido un error al tratar de eliminar al administrador",
+      data: [],
+      accion: "Eliminar administrador",
+      error: error,
+    });
+  }
+}
 
 module.exports = {
   getAdmin,
-  crearAdmin,
-  //actualizarAdmin,
-  //eliminarAdmin,
-  //crearStudent,
-  //crearStaff
+  autenticarUsers,
+  addAdmin,
+  addStaff,
+  addStudents,
+  updateAdmin,
+  eliminarAdmin
 };
