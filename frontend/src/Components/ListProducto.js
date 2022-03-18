@@ -1,54 +1,43 @@
-import React, { Fragment, useEffect, useState, useContext } from "react";
-import axios from 'axios'
-import Swal from 'sweetalert2';
+import React, { Fragment, useEffect, useState } from "react";
 
 import EditProducto from "./EditProducto";
 
-const ListProducto= () => {
+const ListProducto = () => {
+  const [admin, setAdmin] = useState([]);
 
-
-  const elem = window.localStorage.getItem('usuario')
-  let usuario = elem ? JSON.parse(elem) : null
-
-  const [producto, setProducto] = useState([]);
-
+  /* const elem = window.localStorage.getItem("usuario");
+  let usuario = elem ? JSON.parse(elem) : null; */
   //delete todo function
 
-  const deleteProducto = async id => {
+  const deleteProducto = async (id) => {
     try {
       await fetch(`https://provo-backend.herokuapp.com/productos/${id}`, {
-        method: "DELETE"
+        method: "DELETE",
       }).then(() => {
-        setProducto(producto.filter(producto => producto.id !== id));
+        setAdmin(admin.filter((admin) => admin.id !== id));
       });
     } catch (err) {
       console.error(err.message);
     }
   };
 
-  const getProducto = async () => {
+  const getAdmin = async () => {
     try {
+      const elem = window.localStorage.getItem("usuario");
+      const dato = elem ? JSON.parse(elem) : null;
 
-      const elem = window.localStorage.getItem('usuario')
-      const dato = elem ? JSON.parse(elem) : null
-
-      const response = await fetch(`https://provo-backend.herokuapp.com/productos/${dato.id}`);
+      const response = await fetch(`http://localhost:9000/admin`);
       const jsonData = await response.json();
-      console.log(
-        jsonData
-      )
 
-      setProducto(jsonData);
+      setAdmin(jsonData);
     } catch (err) {
       console.error(err.message);
     }
   };
 
   useEffect(() => {
-    getProducto();
+    getAdmin();
   });
-
-  console.log(producto);
 
   return (
     <Fragment>
@@ -56,25 +45,24 @@ const ListProducto= () => {
       <table className="table mt-5 text-center">
         <thead>
           <tr>
-            <th>Nombre</th>
+            <th>Id</th>
+            <th>Nombre Admin</th>
             <th>Edit</th>
-            <th>Carrito</th>
             <th>Delete</th>
           </tr>
         </thead>
         <tbody>
-          
-          {producto.map(todo => (
-            <tr key={todo.id}>
-              <td>{todo.nombre}</td>
+          {admin.map((administrador) => (
+            <tr key={administrador.id}>
+              <td>{administrador.id}</td>
+              <td>{administrador.name_ad}</td>
               <td>
-                <EditProducto todo={todo} />
+                <EditProducto todo={administrador} />
               </td>
-              
               <td>
                 <button
                   className="btn btn-danger"
-                  onClick={() => deleteProducto(todo.id)}
+                  onClick={() => deleteProducto(administrador.id)}
                 >
                   Delete
                 </button>

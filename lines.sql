@@ -185,7 +185,9 @@ CREATE TYPE opMultiple AS (
     C varchar(1),
     D varchar(1)
 );
+---
 CREATE TYPE trOrfa AS (A Boolean, B Boolean);
+---
 CREATE TABLE IF NOT EXISTS Option(
     id INTEGER UNIQUE,
     open VARCHAR(20),

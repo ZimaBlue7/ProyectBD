@@ -1,47 +1,41 @@
-const pool = require('../db');
+const pool = require("../db");
 
-const getAllTask = async (req, res,next) =>{
-       try {
-        const email = req.params.email
-        const pass = req.params.pass
-        console.log([email, pass])
-        const result = await pool.query("SELECT * FROM users WHERE email = $1 AND password= $2", [email, pass]);
-        res.json(result.rows);
-       } catch (error) {
-         next(error)
-       } 
-}
-
-const getHome = async (req, res,next) =>{
+const getAdmin = async (req, res) => {
+  const response = await pool.query("SELECT * FROM admin");
   try {
-   const email = req.params.email
-   const pass = req.params.pass
-   console.log("getHome:  "+ [email, pass])
-   const result = await pool.query("SELECT * FROM users WHERE email = $1 AND password= $2", [email, pass]);
-   res.json(result.rows);
+    const id = response.rows;
+    const usuario = response.rows;
+    res.send(usuario);
   } catch (error) {
-    next(error)
-  } 
-}
+    res.status(500).json({
+      message: "Ha ocurrido un error al tratar de obtener a al usuario",
+      data: [],
+      accion: "Obtener admin",
+      error: error,
+    });
+  }
+};
 
-
-      
-const getUser = (req, res) =>{
-    const {username, email, password} = req.body
-    pool.query('INSERT INTO users (username, email, password) VALUES ($1, $2, $3)', [
-        username, 
-        email, 
-        password]
-        )
-    };
-
-const register = (req, res) =>{
-    res.send("register creando un usuario");
- };
+const crearAdmin = async (req, res) => {
+  const { id, name_ad } = req.body;
+  await pool.query("INSERT into admin (id, name_ad) VALUES ($1,$2)");
+  try {
+    console.log("try ");
+  } catch (error) {
+    res.status(500).json({
+      message: "Ha ocurrido un error al tratar de insertar a al usuario",
+      data: [],
+      accion: "Insertar admin",
+      error: error,
+    });
+  }
+};
 
 module.exports = {
-    getAllTask,
-    getUser,
-    register,
-    getHome
-}
+  getAdmin,
+  crearAdmin,
+  //actualizarAdmin,
+  //eliminarAdmin,
+  //crearStudent,
+  //crearStaff
+};

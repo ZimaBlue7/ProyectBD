@@ -11,6 +11,11 @@
   width: 100%;
 }
 
+.btn-primary,
+.btn-lg {
+  margin-right: 5px;
+}
+
 .home {
   width: 60px;
   height: 60px;
@@ -59,7 +64,7 @@
   margin-top: 100px;
   margin-right: 8%;
   border-radius: 20px 20px 20px 20px;
-  border: 5px inset rgb(255, 255, 255);
+  border: 5px inset rgb(0, 0, 0);
 }
 
 /*.menu1 {
@@ -95,6 +100,6 @@
 
 th,
 td {
-  color: aliceblue;
+  color: rgb(0, 0, 0);
   font-size: 23px;
 }
