@@ -9,7 +9,7 @@ const ListAdmin = () => {
   let usuario = elem ? JSON.parse(elem) : null; */
   //delete todo function
 
-  const deleteProducto = async (id) => {
+  const deleteAdmin = async (id) => {
     try {
       await fetch('https://attendancjyc-backend.herokuapp.com/admin/' + id, {
         method: "DELETE",
@@ -31,26 +31,19 @@ const ListAdmin = () => {
     }
   };
 
-  const autenticarAdmin = async () => {
-
-    const elem = window.localStorage.getItem("usuario");
-    const dato = elem ? JSON.parse(elem) : null;
-
-  };
-
   useEffect(() => {
     getAdmin();
   });
-
+  const Wrapper = Fragment;
   return (
-    <Fragment>
+    <Wrapper>
       <table className="table mt-5 text-center">
         <thead>
           <tr>
             <th>Id</th>
             <th>Nombre Admin</th>
             <th>Editar admin</th>
-            <th>Delete admin</th>
+            <th>Eliminar admin</th>
           </tr>
         </thead>
         <tbody>
@@ -64,9 +57,8 @@ const ListAdmin = () => {
               <td>
                 <button
                   className="btn btn-danger"
-                  onClick={() => deleteProducto(administrador.id)}
-                >
-                  Delete
+                  onClick={() => deleteAdmin(administrador.id)}
+                >Eliminar
                 </button>
               </td>
             </tr>
@@ -74,8 +66,7 @@ const ListAdmin = () => {
         </tbody>
       </table>
       <AddAdmin />
-    </Fragment>
-    
+    </Wrapper>
   );
 };
 

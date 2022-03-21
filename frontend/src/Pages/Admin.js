@@ -2,13 +2,10 @@
 import { styled, useTheme } from '@mui/material/styles';
 import React, { useState } from 'react';
 import ListItemButton from '@mui/material/ListItemButton';
-
+import HomeIcon from '@mui/icons-material/Home';
 import "../Styles/admin.css";
-import "../Styles/Inventario/mediaProductos.css";
-
 import AddAdmin from "../Components/AddAdmin.js";
 import ListAdmin from "../Components/ListAdmins.js";
-
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar from '@mui/material/AppBar';
@@ -18,10 +15,9 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import LoginIcon from '@mui/icons-material/Login';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
-import WidgetsIcon from '@mui/icons-material/Widgets';
-import BallotIcon from '@mui/icons-material/Ballot';
+import AccessibilityNewIcon from '@mui/icons-material/AccessibilityNew';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import ListAltIcon from '@mui/icons-material/ListAlt';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
@@ -96,9 +92,12 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 	alignItems: 'center',
 	justifyContent: 'flex-end',
 	padding: theme.spacing(0, 1),
-	// necessary for content to be below app bar
 	...theme.mixins.toolbar,
 }));
+
+const home = () =>{
+	window.location = "/admin";
+  }
 
 const AppBar = styled(MuiAppBar, {
 	shouldForwardProp: (prop) => prop !== 'open',
@@ -153,9 +152,8 @@ export default function Admin() {
 	const [open, setOpen] = useState(false);
 	const classes = useStyles()
 
-	const handleSubmit = async (e) =>{
-	
-        
+	const course = () =>{
+        window.location = "/courses";
     };
 
 
@@ -199,18 +197,18 @@ export default function Admin() {
 				</DrawerHeader>
 				<Divider />
 				<List>
-					<ListItemButton onClick={(e) => handleSubmit(e)}>
-						<ListItemIcon ><AccountCircleIcon className={classes.icons} /></ListItemIcon>
+					<ListItemButton onClick={() => course()}>
+						<ListItemIcon ><ListAltIcon className={classes.icons} /></ListItemIcon>
 						<ListItemText primary="Crear curso" /></ListItemButton>
 				<ListItemButton>
 					<ListItemIcon>
-					<BallotIcon className={classes.icons}/>
+					<PersonAddIcon className={classes.icons}/>
 					</ListItemIcon>
 					<ListItemText primary="Agregar y ver personal" />
 				</ListItemButton>
 				<ListItemButton>
 					<ListItemIcon>
-					<QuestionMarkIcon className={classes.icons}/>
+					<AccessibilityNewIcon className={classes.icons}/>
 					</ListItemIcon>
 					<ListItemText primary="Agregar y ver estudiantes" />
 				</ListItemButton>
@@ -227,7 +225,6 @@ export default function Admin() {
           <AddAdmin />
           <ListAdmin />
         </section>
-
 		</Box>
 		</StyledBody>
 		<Copyright sx={{ mt: 8, mb: 4 }} />

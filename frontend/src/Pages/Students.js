@@ -25,6 +25,7 @@ import '../Styles/students.css';
 import styledt from 'styled-components';
 import image from "../Images/std.png";
 import Swal from 'sweetalert2';
+import axios from 'axios'
 import { Helmet } from 'react-helmet'
 
 
@@ -136,12 +137,21 @@ export default function Students() {
 	//const [body, setBody] = useState({ username: Login.username, password: Login.password })
 	//console.log("handleChange "+ Login.username);
 	const classes = useStyles()
+	const [body, setBody] = useState({ usuario: '', password: '' });
 
 	const handleSubmit = async (e) => {
 
 
 	};
 
+	const verify = async () => {
+		const res = await axios.post('https://attendancjyc-backend.herokuapp.com/login/', body);
+		console.log(res.data[0]);
+  
+		if(res.data[0].description != "Estudiante"){
+		  console.log("no es un estudiante");
+		}
+	}
 
 	const handleDrawerOpen = () => {
 		setOpen(true);

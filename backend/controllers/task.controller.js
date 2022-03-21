@@ -1,6 +1,5 @@
 const pool = require("../db");
 
-
 const getAdmin = async (req, res) => {
   try {
 
@@ -19,6 +18,37 @@ const getAdmin = async (req, res) => {
   }
 };
 
+const getStudents = async (req, res) => {
+  try {
+    const response = await pool.query("SELECT * FROM Users WHERE description = 'Estudiante' OR description = 'estudiante' ");
+    const usuario = response.rows;
+    res.send(usuario);
+  } catch (error) {
+    res.status(500).json({
+      message: "Ha ocurrido un error al tratar de obtener a los estudiantes",
+      data: [],
+      accion: "Obtener estudiante",
+      error: error,
+    });
+  }
+};
+
+
+const getCourse = async (req, res) => {
+  try {
+    const response = await pool.query("SELECT * FROM course");
+    const course = response.rows;
+    res.send(course);
+  } catch (error) {
+    res.status(500).json({
+      message: "Ha ocurrido un error al tratar de obtener a los cursos",
+      data: [],
+      accion: "Obtener cursos",
+      error: error,
+    });
+  }
+};
+
 const autenticarUsers = async (req, res) => {
   try {
     const {usuario, password} = req.body;
@@ -32,7 +62,7 @@ const autenticarUsers = async (req, res) => {
 
   } catch (error) {
     res.status(500).json({
-      message: "Ha ocurrido un error al tratar de autenticar a al usuario",
+      message: "Ha ocurrido un error al tratar de autenticar al usuario",
       data: [],
       accion: "Autenticar usuario",
       error: error,
@@ -75,7 +105,6 @@ const addAdmin = async (req, res) => {
 
 const addStaff = async (req, res) => {
   try {
-
     const {identificacion, nombre, especialidad, password, email, description} = req.body;
     await pool.query('INSERT INTO Users (id, name_u, password, description, email) VALUES ($1, $2, $3, $4, $5)', [
       identificacion, 
@@ -114,7 +143,6 @@ const addStaff = async (req, res) => {
 
 const addStudents = async (req, res) => {
   try {
-
     const {identificacion, nombre, semester, programa, password, email, description} = req.body;
     await pool.query('INSERT INTO Users (id, name_u, password, description, email) VALUES ($1, $2, $3, $4, $5)', [
       identificacion, 
@@ -155,10 +183,8 @@ const addStudents = async (req, res) => {
 
 const updateAdmin = async (req, res) => {
   try {
-
     const {id} = req.params;
     const {nombre, password, email} = req.body;
-
     await pool.query('UPDATE Users SET name_u = $1, password = $2, email = $3 WHERE id = $4', [
       nombre, 
       password, 
@@ -186,12 +212,55 @@ const updateAdmin = async (req, res) => {
   }
 }
 
+const updateCourse = async (req, res) => {
+  try {
+    const {id} = req.params;
+    const {name} = req.body;
+    await pool.query('UPDATE Course SET name_co = $1 WHERE id = $2', [
+      name,
+      id
+    ])
+
+    res.json({
+      message: 'El curso se actualizo',
+      data: {
+        id,
+        name
+      }
+    })
+    
+  } catch (error) {
+    res.status(500).json({
+      message: "Ha ocurrido un error al tratar de actualizar al curso",
+      data: [],
+      accion: "Actualizar curso",
+      error: error,
+    });
+  }
+}
+
 const eliminarAdmin = async (req, res) => {
   try {
 
     const {id} = req.params;
-
     await pool.query('DELETE FROM Users WHERE id = $1', [id])
+    
+  } catch (error) {
+    res.status(500).json({
+      message: "Ha ocurrido un error al tratar de eliminar al administrador",
+      data: [],
+      accion: "Eliminar administrador",
+      error: error,
+    });
+  }
+}
+
+
+const eliminarCourse = async (req, res) => {
+  try {
+
+    const {id} = req.params;
+    await pool.query('DELETE FROM course WHERE id = $1', [id])
     
   } catch (error) {
     res.status(500).json({
@@ -206,7 +275,6 @@ const eliminarAdmin = async (req, res) => {
 
 const addCourse = async (req, res) => {
   try {
-
     const {id, name_co, id_staff} = req.body;
     await pool.query('INSERT INTO Course (id, name_co, id_staff) VALUES ($1, $2, $3)', [
       id, 
@@ -236,11 +304,15 @@ const addCourse = async (req, res) => {
 
 module.exports = {
   getAdmin,
+  getStudents,
+  getCourse,
   addAdmin,
   addStaff,
   addStudents,
   autenticarUsers,
   addCourse,
   updateAdmin,
-  eliminarAdmin
+  updateCourse,
+  eliminarAdmin, 
+  eliminarCourse
 };

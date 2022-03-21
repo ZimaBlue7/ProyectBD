@@ -51,9 +51,9 @@ const editAdmin = async ( id, datos ) => {
 
 
 const EditAdmin = (props) => {
-        
+  const Wrapper = Fragment;
   return (
-    <Fragment>
+    <Wrapper>
       <button
         type="button"
         className="btn btn-warning"
@@ -64,7 +64,7 @@ const EditAdmin = (props) => {
         Edit
       </button>
 
-    </Fragment>
+    </Wrapper>
   );
 };
 

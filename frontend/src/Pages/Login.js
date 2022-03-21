@@ -13,7 +13,8 @@ import Swal from 'sweetalert2';
 import styled from 'styled-components';
 import image from "../Images/back.jpg";
 import { Helmet } from 'react-helmet'
-import { Navigate } from 'react-router-dom';
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom';
 
 
 const TITLE = 'Ingresar'
@@ -45,37 +46,82 @@ function Copyright(props) {
   );
 }
 
-const theme = createTheme();
 
-export default function SignIn() {
+const Login = () => {
+  const theme = createTheme();
+  const navigate = useNavigate();
+
   const [body, setBody] = useState({ usuario: '', password: '' });
 
   const handleChange = (e) => {
     setBody({ ...body, [e.target.name]: e.target.value });
   }
+  
+
 
   const handleSubmit = async (e) => {
-      e.preventDefault();
-      const elem = window.localStorage.getItem("usuario");
-      const dato = elem ? JSON.parse(elem) : null;
-      try {
-        const response = await fetch('https://attendancjyc-backend.herokuapp.com/login/', {
-          method: 'POST', // or 'PUT'
-          body: JSON.stringify(body), // data can be `string` or {object}!
-          headers:{
-            'Content-Type': 'application/json'
+
+    e.preventDefault();
+
+    try {
+
+      const res = await axios.post('https://attendancjyc-backend.herokuapp.com/login/', body);
+      console.log(res.data[0])
+      if (res.data.length > 0) {
+
+        Swal.fire({
+          title: 'Verificando informacion',
+          timer: 2000,
+          timerProgressBar: true,
+          didOpen: () => {
+            Swal.showLoading()
           }
-        });
-        console.log("response ", response);
-        if(response.json){
-          Swal.fire('Bienvenido: ', body.usuario);
-        }else{
-          Swal.fire('El usuario no existe');
-        }
-  
-      } catch (err) {
-        console.error(err.message);
+        }).then(() => {
+
+          Swal.fire({
+            icon: 'success',
+            title: 'Bienvenido a Attendance ' + res.data[0].name_u,
+            showConfirmButton: false,
+            timer: 3000,
+          }).then(function () {
+
+            if (res.data[0].description == "Administrador" || res.data[0].description == "administrador") {
+              window.location = "/admin";
+            }else if (res.data[0].description == "Estudiante" || res.data[0].description == "Estudiante") {
+              window.location = "/students";
+            }else if(res.data[0].description == "Profesor" || res.data[0].description == "Personal"){
+              window.location = "/staff";
+            }
+            });
+
+        })
+
       }
+      else {
+
+        Swal.fire({
+          title: 'Verificando informacion',
+          timer: 1000,
+          timerProgressBar: true,
+          didOpen: () => {
+            Swal.showLoading()
+          }
+        }).then(() => {
+          Swal.fire({
+            icon: 'error',
+            title: 'No estás registrado',
+            showConfirmButton: false,
+            timer: 2000,
+          });
+        })
+
+      }
+
+
+    } catch (e) {
+      console.log(e)
+    }
+
   };
 
   return (
@@ -151,3 +197,5 @@ export default function SignIn() {
     </StyledBody>
   );
 }
+
+export default Login;
