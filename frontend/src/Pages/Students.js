@@ -134,8 +134,6 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 export default function Students() {
 	const theme = useTheme();
 	const [open, setOpen] = React.useState(false);
-	//const [body, setBody] = useState({ username: Login.username, password: Login.password })
-	//console.log("handleChange "+ Login.username);
 	const classes = useStyles()
 	const [body, setBody] = useState({ usuario: '', password: '' });
 
@@ -194,7 +192,7 @@ export default function Students() {
 					denyButtonText: `Multiple o F/V`,
 					confirmButtonText: 'Abierta'
 				  }).then(response => {
-					if(response.isDismissed == true){
+					if(response.isDismissed === true){
 						proof();
 					}else{
 						console.log("false ",response, "result ", result);

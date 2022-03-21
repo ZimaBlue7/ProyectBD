@@ -3,6 +3,7 @@ var router = express.Router();
 
 const {
   getAdmin,
+  getStaff,
   autenticarUsers,
   addAdmin,
   addStaff,
@@ -19,6 +20,7 @@ const {
 router.get("/admin/", getAdmin);
 router.get("/course/", getCourse);
 router.get("/students/", getStudents);
+router.get("/staff/", getStaff);
 router.post('/login/', autenticarUsers);
 router.post('/administrador/', addAdmin);
 router.post('/addcourse/', addCourse);

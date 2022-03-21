@@ -56,7 +56,10 @@ const addingAdmin = async () => {
       if(response.json){
         Swal.fire('Administrador agregado con Exito');
       }
-      else{
+      if(formValues[0] === "" || formValues[1] === "" || formValues[2] === null || formValues[3] === ""){
+        Swal.fire('Administrador no pudo ser agregado');
+      }
+      else {
         Swal.fire('Administrador no pudo ser agregado');
       }
 
