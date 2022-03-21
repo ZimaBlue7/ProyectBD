@@ -3,6 +3,9 @@ import { styled, useTheme } from '@mui/material/styles';
 import React, { useState } from 'react';
 import ListItemButton from '@mui/material/ListItemButton';
 import Box from '@mui/material/Box';
+
+import "../Styles/Staffcs/inventario2.css";
+
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -27,6 +30,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import image from "../Images/admin.jpg";
 import styledt from 'styled-components';
 import { Helmet } from 'react-helmet'
+import Swal from 'sweetalert2';
+import { useNavigate } from "react-router-dom";
+
+import { useHistory } from "react-router-dom";
+import ListStaff from '../Components/Staff/ListStaff';
 
 const TITLE = 'Personal'
 
@@ -128,16 +136,149 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 	}),
 );
 
+const enrollStudent = async () => {
+	const { value: formValues } = await Swal.fire({
+		title: 'Agregar estudiante',
+		html:
+		  '<input id="swal-input1"  placeholder="Nombre estudiante" class="swal2-input">' +
+		  '<input id="swal-input2"  placeholder="Codigo estudiante" class="swal2-input">',
+		focusConfirm: false
+		
+	  })
+	  
+	  if(formValues[0] === "" || formValues[1] === ""){
+		  Swal.fire("Por favor llene todos los campos") // revisar
+	  }
+	  if (formValues) {
+		Swal.fire("Datos agregados correctamente")
+	  }
+
+};
+
+const addquestion = async () => {
+	const { value: pregunta } = await Swal.fire({
+		title: 'Crear pregunta',
+		input: 'select',
+		inputOptions: {
+
+			'Abierta': 'Abierta',
+
+		  'Cerrada': {
+			OpcionMultiple: 'Opcion multiple',
+			Trueoffalse: 'True of false',
+		  },
+		},
+		inputPlaceholder: 'Seleccione el tipo de pregunta',
+		showCancelButton: true,
+		/* inputValidator: (value) => {
+		  return new Promise((resolve) => {
+			if (value === 'oranges') {
+			  resolve()
+			} else {
+			  resolve('You need to select oranges :)')
+			}
+		  })
+		} */
+	  })
+	  
+	  if (pregunta === 'Abierta' ) {
+		Swal.fire({
+			title: 'Ingrese la pregunta',
+			input: 'text',
+			inputValue: '',
+			showCancelButton: true,
+			inputValidator: (value) => {
+			  if (!value) {
+				return 'Tienes que escribir una pregunta!'
+			  }
+			}
+		  })
+		  
+	  }
+	  else if(pregunta === 'OpcionMultiple'){
+		Swal.fire({
+		title: 'Ingrese la pregunta',
+		html:
+			  '<input id="swal-input1"  placeholder="Pregunta" class="swal2-input">' +
+			  '<input id="swal-input2"  placeholder="Opcion A" class="swal2-input">'+
+			  '<input id="swal-input3"  placeholder="Opcion B" class="swal2-input">' +
+			  '<input id="swal-input4"  placeholder="Opcion C" class="swal2-input">'+
+			  '<input id="swal-input5"  placeholder="Opcion D" class="swal2-input">',
+		focusConfirm: false,
+			
+		showCancelButton: true,
+		inputValidator: (value) => {
+		  if (!value) {
+			return 'Tienes que escribir una pregunta!'
+		  }
+		}})
+
+
+	  }else if(pregunta === 'Trueoffalse'){
+		Swal.fire({
+			title: 'Ingrese la pregunta',
+			input: 'text',
+			inputLabel: 'Las opciones seran true y false',
+			inputValue: '',
+			showCancelButton: true,
+			inputValidator: (value) => {
+			  if (!value) {
+				return 'Tienes que escribir una pregunta!'
+			  }
+			}
+		  })
+}
+}
+
+const crearPrueba = async () => {
+	const { value: formValues } = await Swal.fire({
+		title: 'Crear Prueba',
+		html:
+		  '<input id="swal-input1"  placeholder="Nombre prueba" class="swal2-input">' +
+		  '<input id="swal-input2"  placeholder="Codigo " class="swal2-input">',
+		focusConfirm: false
+		
+	  })
+	  
+	  if(formValues[0] === "" || formValues[1] === ""){
+		  Swal.fire("Por favor llene todos los campos") // revisar
+	  }
+	  if (formValues) {
+		Swal.fire("Datos agregados correctamente")
+	  }	
+}
+
+const crearListaOpcion = async (datos) => {
+	const { value: formValuess } = await Swal.fire({
+		title: 'Crear lista de opciones ',
+		html:
+		  '<input id="swal-input1"  placeholder="Nombre de lista opciones" class="swal2-input">'+
+		  '<input id="swal-input2"  placeholder="Cantidad de Opciones" class="swal2-input">',
+		focusConfirm: false
+		
+	  })
+	  
+	  if (formValuess) {
+		Swal.fire("Datos agregados correctamente")
+		console.log({formValuess})
+
+		const rectifica = {
+			prueba: formValuess[0] ? formValuess[0] : rectifica.name_u, 
+			numeroOpciones: formValuess[1] ? formValuess[1] : rectifica.password
+		  }
+	  }	
+}
+
 
 export default function Home() {
 	const theme = useTheme();
 	const [open, setOpen] = React.useState(false);
 	//const [body, setBody] = useState({ username: Login.username, password: Login.password })
 	//console.log("handleChange "+ Login.username);
-	const classes = useStyles()
 
-
-	
+  
+	const classes = useStyles();
+	 
 	const handleSubmit = async (e) =>{
 	
         
@@ -185,37 +326,42 @@ export default function Home() {
 				<Divider />
 				<List className={classes.icon}>
 					<ListItemButton onClick={(e) => handleSubmit(e)}>
-						<ListItemIcon ><AccountCircleIcon className={classes.icon} /></ListItemIcon>
+						<ListItemIcon ><AccountCircleIcon onClick={enrollStudent} className={classes.icon} /></ListItemIcon>
 						<ListItemText primary="Inscribir estudiantes" /></ListItemButton>
 				<ListItemButton>
 				</ListItemButton>
 				<ListItemButton>
 					<ListItemIcon>
-					<QuestionMarkIcon className={classes.icon} />
+					<QuestionMarkIcon className={classes.icon} onClick={addquestion} />
 					</ListItemIcon>
 					<ListItemText primary="Crear preguntas" />
 				</ListItemButton>
                 <ListItemButton>
 					<ListItemIcon>
-					<QuizIcon className={classes.icon} />
+					<QuizIcon className={classes.icon} onClick={crearPrueba} />
 					</ListItemIcon>
 					<ListItemText primary="Crear pruebas" />
 				</ListItemButton>
                 <ListItemButton>
 					<ListItemIcon>
-					<WidgetsIcon className={classes.icon} />
+					<WidgetsIcon className={classes.icon} onClick={crearListaOpcion} />
 					</ListItemIcon>
 					<ListItemText primary="Crear lista de opciones" />
 				</ListItemButton>
-				<ListItemButton>
+				<ListItemButton >
 					<ListItemIcon>
-					<LoginIcon className={classes.icon} />
+					<LoginIcon className={classes.icon}  />
 					</ListItemIcon>
 					<ListItemText primary="Cerrar sesión" />
-				</ListItemButton>
+				</ListItemButton >
 				</List>
 				<Divider />			
 			</Drawer>
+
+			<section className="inventario2">
+          <ListStaff />
+        </section>
+
 		</Box>
 		</StyledBody>
 	);

@@ -184,7 +184,7 @@ export default function Students() {
 					denyButtonText: `Multiple o F/V`,
 					confirmButtonText: 'Abierta'
 				  }).then(response => {
-					if(response.isDismissed == true){
+					if(response.isDismissed === true){
 						proof();
 					}else{
 						console.log("false ",response, "result ", result);

@@ -18,6 +18,24 @@ const getAdmin = async (req, res) => {
   }
 };
 
+const getStaff = async (req, res) => {
+  try {
+
+    const id = req.rows;
+    const response = await pool.query("SELECT * FROM Users WHERE description = 'Staff' OR description = 'staff' ");
+    const usuario = response.rows;
+    res.send(usuario);
+
+  } catch (error) {
+    res.status(500).json({
+      message: "Ha ocurrido un error al tratar de obtener a al usuario",
+      data: [],
+      accion: "Obtener Staff",
+      error: error,
+    });
+  }
+};
+
 const autenticarUsers = async (req, res) => {
   try {
     
@@ -186,6 +204,39 @@ const updateAdmin = async (req, res) => {
   }
 }
 
+const updateStaff = async (req, res) => {
+  try {
+
+    const {id} = req.params;
+    const {nombre, password, email} = req.body;
+
+    await pool.query('UPDATE Users SET name_u = $1, password = $2, email = $3 WHERE id = $4', [
+      nombre, 
+      password, 
+      email,
+      id
+    ])
+
+    res.json({
+      message: 'El Staff se actualizo',
+      data: {
+        id,
+        nombre, 
+        password, 
+        email
+      }
+    })
+    
+  } catch (error) {
+    res.status(500).json({
+      message: "Ha ocurrido un error al tratar de actualizar al Staff",
+      data: [],
+      accion: "Actualizar Staff",
+      error: error,
+    });
+  }
+}
+
 const eliminarAdmin = async (req, res) => {
   try {
 
@@ -203,12 +254,32 @@ const eliminarAdmin = async (req, res) => {
   }
 }
 
+const eliminarStaff = async (req, res) => {
+  try {
+
+    const {id} = req.params;
+
+    await pool.query('DELETE FROM Users WHERE id = $1', [id])
+    
+  } catch (error) {
+    res.status(500).json({
+      message: "Ha ocurrido un error al tratar de eliminar al Staff",
+      data: [],
+      accion: "Eliminar Staff",
+      error: error,
+    });
+  }
+}
+
 module.exports = {
   getAdmin,
+  getStaff,
   autenticarUsers,
   addAdmin,
   addStaff,
   addStudents,
   updateAdmin,
-  eliminarAdmin
+  eliminarAdmin,
+  updateStaff,
+  eliminarStaff
 };

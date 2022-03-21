@@ -1,0 +1,101 @@
+/*@font-face {
+  font-family: "Sonsie One";
+  font-style: normal;
+  font-weight: 400;
+  src: url("https://fonts.gstatic.com/s/sonsieone/v11/PbymFmP_EAnPqbKaoc18UVy21g.ttf")
+    format("truetype");
+}*/
+
+.homeBase {
+    text-align: end;
+    width: 100%;
+  }
+  
+  .btn-primary,
+  .btn-lg {
+    margin-right: 5px;
+  }
+  
+  .home {
+    width: 60px;
+    height: 60px;
+    background-color: transparent;
+    padding-top: 3%;
+    padding-right: 9%;
+    border-style: none;
+  }
+  
+  .homeIcon {
+    width: 60px;
+    height: 60px;
+    align-self: center;
+    padding-top: 3%;
+    padding-right: 9%;
+  }
+  
+  .titulo1 {
+    text-align: center;
+    font: small-caps 100%/200% serif;
+    font-size: 2.5em;
+    color: rgb(255, 255, 255);
+    padding-top: 4%;
+  }
+  
+  .insertarD {
+    text-align: center;
+    width: 100%;
+  }
+  
+  .insert {
+    font: small-caps 100%/200% serif;
+    font-size: 2em;
+    text-align: center;
+    background-color: transparent;
+    border-style: none;
+    padding-top: 0.5%;
+    size: 100px;
+  }
+  
+  .inventario2 {
+    width: 1000%;
+    height: 700px;
+    /*flex: 4;*/
+    margin-bottom: 10px;
+    margin-top: 100px;
+    margin-right: 8%;
+    margin-left: 8%;
+    border-radius: 20px 20px 20px 20px;
+    border: 5px inset rgb(255, 255, 255);
+  }
+  
+  .inputprod {
+    align-items: center;
+    text-align: center;
+    align-content: center;
+    align-self: center;
+    align-tracks: center;
+  }
+  
+  .fin {
+    width: 100%;
+    columns: 2;
+  }
+  
+  .piePagina {
+    margin-top: 3%;
+    margin-right: 35%;
+  }
+  
+  .provo {
+    width: 230px;
+    height: 150;
+    float: right;
+    margin-right: 5%;
+  }
+  
+  th,
+  td {
+    color: rgb(255, 255, 255);
+    font-size: 23px;
+  }
+  
