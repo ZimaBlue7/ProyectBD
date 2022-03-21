@@ -3,7 +3,6 @@ import Swal from "sweetalert2";
 import Fab from '@mui/material/Fab';
 import { makeStyles } from "@material-ui/core/styles";
 import AddIcon from '@material-ui/icons/Add';
-import "../Styles/Inventario/inventario.css";
 
 const useStyles = makeStyles(() => ({
   wrapIcon: {

@@ -7,14 +7,16 @@ const {
   autenticarUsers,
   addAdmin,
   addStaff,
+  addCourse,
   addStudents,
   updateAdmin,
   eliminarAdmin
 } = require("../controllers/task.controller");
 
 router.get("/admin/", getAdmin);
-router.post('/admin/', autenticarUsers);
+router.get('/login/', autenticarUsers);
 router.post('/administrador/', addAdmin);
+router.post('/addcourse/', addCourse);
 router.post('/personal/', addStaff);
 router.post('/estudiante/', addStudents);
 router.put('/admin/:id', updateAdmin);

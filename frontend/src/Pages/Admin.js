@@ -3,8 +3,7 @@ import { styled, useTheme } from '@mui/material/styles';
 import React, { useState } from 'react';
 import ListItemButton from '@mui/material/ListItemButton';
 
-import "../Styles/Inventario/inventario.css";
-import "../Styles/Inventario/App.css";
+import "../Styles/admin.css";
 import "../Styles/Inventario/mediaProductos.css";
 
 import AddAdmin from "../Components/AddAdmin.js";
@@ -21,7 +20,6 @@ import Divider from '@mui/material/Divider';
 import LoginIcon from '@mui/icons-material/Login';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
-import QuizIcon from '@mui/icons-material/Quiz';
 import WidgetsIcon from '@mui/icons-material/Widgets';
 import BallotIcon from '@mui/icons-material/Ballot';
 import IconButton from '@mui/material/IconButton';
@@ -31,7 +29,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { makeStyles } from '@material-ui/core/styles';
-import image from "../Images/backa.jpg";
+import image from "../Images/fondo.png";
 import styledt from 'styled-components';
 import { Helmet } from 'react-helmet'
 import Container from "@mui/material/Container";
@@ -225,12 +223,7 @@ export default function Admin() {
 				</List>
 				<Divider />		
 			</Drawer>
-			
-			<div className="insertarD">
-          
-        </div>
-
-        <section className="inventario">
+        <section className="table">
           <AddAdmin />
           <ListAdmin />
         </section>

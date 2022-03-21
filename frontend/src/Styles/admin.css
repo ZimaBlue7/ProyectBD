@@ -1,0 +1,20 @@
+
+  
+  
+
+  
+  table {
+    border-radius: 20px 20px 20px 20px;
+    background-color: rgba(255, 255, 255, 0.192);
+    border: 2px outset white;
+  }
+
+
+
+  th,
+  td {
+    border: 3px inset white;
+    font-size: 23px;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  }
+  

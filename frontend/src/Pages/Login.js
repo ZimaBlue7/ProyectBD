@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -9,11 +9,11 @@ import Typography from '@mui/material/Typography';
 import '../Styles/login.css';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import axios from 'axios';
 import Swal from 'sweetalert2';
 import styled from 'styled-components';
-import image from "../Images/back.jpg"; 
+import image from "../Images/back.jpg";
 import { Helmet } from 'react-helmet'
+import { Navigate } from 'react-router-dom';
 
 
 const TITLE = 'Ingresar'
@@ -48,42 +48,39 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignIn() {
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-    try {
-      const res = await axios.get('http://localhost:9000/login/' + data.get('email') + '/' + data.get('password'));
-      if (res.data.length > 0) {
-        Swal.fire({
-          icon: 'success',
-          title: 'Bienvenido a Attendance ' + data.get('email'),
-          showConfirmButton: false,
-          timer: 3000,
-        }).then(function () {
-          // window.location = "/dashboard";
-        });
-      } else {
-        Swal.fire({
-          icon: 'error',
-          title: 'No estás registrado',
-          showConfirmButton: false,
-          timer: 2000,
-        });
-      }
-    } catch (e) {
-      console.log(e)
-    }
+  const [body, setBody] = useState({ usuario: '', password: '' });
 
+  const handleChange = (e) => {
+    setBody({ ...body, [e.target.name]: e.target.value });
+  }
+
+  const handleSubmit = async (e) => {
+      e.preventDefault();
+      const elem = window.localStorage.getItem("usuario");
+      const dato = elem ? JSON.parse(elem) : null;
+      try {
+        const response = await fetch('https://attendancjyc-backend.herokuapp.com/login/', {
+          method: 'POST', // or 'PUT'
+          body: JSON.stringify(body), // data can be `string` or {object}!
+          headers:{
+            'Content-Type': 'application/json'
+          }
+        });
+        console.log("response ", response);
+        if(response.json){
+          Swal.fire('Bienvenido: ', body.usuario);
+        }else{
+          Swal.fire('El usuario no existe');
+        }
+  
+      } catch (err) {
+        console.error(err.message);
+      }
   };
 
   return (
     <StyledBody>
-      <Helmet><title>{ TITLE }</title> </Helmet>
+      <Helmet><title>{TITLE}</title> </Helmet>
       <ThemeProvider theme={theme}>
         <Container component="main" maxWidth="xs">
           <CssBaseline />
@@ -104,11 +101,13 @@ export default function SignIn() {
                 margin="normal"
                 required
                 fullWidth
-                id="email"
+                id="usuario"
                 label="Email Address"
-                name="email"
+                name="usuario"
                 autoComplete="email"
                 autoFocus
+                value={body.usuario}
+                onChange={handleChange}
               />
               <TextField
                 margin="normal"
@@ -119,6 +118,8 @@ export default function SignIn() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                value={body.password}
+                onChange={handleChange}
               />
               <Button
                 type="submit"
@@ -126,6 +127,7 @@ export default function SignIn() {
                 color="primary"
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
+                onClick={(e) => handleSubmit(e)}
               >
                 Sign In
               </Button>

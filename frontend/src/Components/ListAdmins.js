@@ -1,7 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
-
 import EditAdmin from "./EditAdmin";
-import  "../Styles/listadmin.css";
+import AddAdmin from "./AddAdmin";
 
 const ListAdmin = () => {
   const [admin, setAdmin] = useState([]);
@@ -12,7 +11,7 @@ const ListAdmin = () => {
 
   const deleteProducto = async (id) => {
     try {
-      await fetch('https://attendancjyc-backend.herokuapp.com/admin/'+id, {
+      await fetch('https://attendancjyc-backend.herokuapp.com/admin/' + id, {
         method: "DELETE",
       }).then(() => {
         setAdmin(admin.filter((admin) => admin.id !== id));
@@ -45,7 +44,6 @@ const ListAdmin = () => {
 
   return (
     <Fragment>
-      {" "}
       <table className="table mt-5 text-center">
         <thead>
           <tr>
@@ -75,7 +73,9 @@ const ListAdmin = () => {
           ))}
         </tbody>
       </table>
+      <AddAdmin />
     </Fragment>
+    
   );
 };
 

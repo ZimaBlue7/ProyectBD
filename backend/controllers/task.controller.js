@@ -1,5 +1,6 @@
 const pool = require("../db");
 
+
 const getAdmin = async (req, res) => {
   try {
 
@@ -20,15 +21,14 @@ const getAdmin = async (req, res) => {
 
 const autenticarUsers = async (req, res) => {
   try {
-    
-    const {email, password} = req.body;
-
-    const usuarios = await pool.query('SELECT * FROM Users WHERE email = $1 and password = $2', [
-      email,
+    const {usuario, password} = req.body;
+    console.log("body ", req.body.usuario);
+    const response = await pool.query('SELECT * FROM Users WHERE (name_u = $1 OR email= $1) AND password = $2', [
+      usuario,
       password
     ])
 
-    res.json(usuarios.rows);
+    res.send(response.rows);
 
   } catch (error) {
     res.status(500).json({
@@ -203,12 +203,44 @@ const eliminarAdmin = async (req, res) => {
   }
 }
 
+
+const addCourse = async (req, res) => {
+  try {
+
+    const {id, name_co, id_staff} = req.body;
+    await pool.query('INSERT INTO Course (id, name_co, id_staff) VALUES ($1, $2, $3)', [
+      id, 
+      name_co, 
+      id_staff
+    ]);
+
+    res.json({
+      message: 'El curso se creo',
+      data: {
+        id, 
+        name_co, 
+        id_staff
+      }
+    })
+    
+  } catch (error) {
+    res.status(500).json({
+      message: "Ha ocurrido un error al tratar de crear a al curso",
+      data: [],
+      accion: "Crear curso",
+      error: error,
+    });
+  }
+}
+
+
 module.exports = {
   getAdmin,
-  autenticarUsers,
   addAdmin,
   addStaff,
   addStudents,
+  autenticarUsers,
+  addCourse,
   updateAdmin,
   eliminarAdmin
 };
