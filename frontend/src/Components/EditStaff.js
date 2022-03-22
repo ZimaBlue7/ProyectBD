@@ -3,11 +3,10 @@ import Swal from "sweetalert2";
 
 const editStaff = async ( id, datos ) => {
   const { value: formValues } = await Swal.fire({
-    title: "Editar administrador",
+    title: "Editar staff",
     html:
-      '<input id="swal-input2" placeholder="Nombre" class="swal2-input">' +
-      '<input id="swal-input3" type = "password" placeholder="Password" class="swal2-input">' +
-      '<input id="swal-input4" placeholder="Especialidad" class="swal2-input">',
+      '<input id="swal-input1" placeholder="Nombre" class="swal2-input">' +
+      '<input id="swal-input2" placeholder="Especialidad" class="swal2-input">',
     focusConfirm: false,
     
   });
@@ -17,12 +16,11 @@ const editStaff = async ( id, datos ) => {
     try {
 
       const data = {
-        nombre: formValues[0] ? formValues[0] : datos.name_u, 
-        password: formValues[1] ? formValues[1] : datos.password, 
-        speciality: formValues[2] ? formValues[2] : datos.speciality,
+        name_s: formValues[0] ? formValues[0] : datos.name_s, 
+        speciality: formValues[1] ? formValues[1] : datos.speciality,
       }
-
-      const response = await fetch('https://attendancjyc-backend.herokuapp.com/personal/'+id, {
+      console.log("data ", data);
+      const response = await fetch('https://attendancjyc-backend.herokuapp.com/staff/'+id, {
         method: 'PUT',
         body: JSON.stringify(data), // data can be `string` or {object}!
         headers:{

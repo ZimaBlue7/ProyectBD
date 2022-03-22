@@ -1,16 +1,16 @@
 import React, { Fragment, useEffect, useState } from "react";
-
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 import EditStaff from "./EditStaff";
 
 const ListStaff = () => {
   const [staff, setStaff] = useState([]);
 
-  const deleteProducto = async (id) => {
+  const deleteStaff = async (id) => {
     try {
       await fetch('https://attendancjyc-backend.herokuapp.com/personal/'+id, {
         method: "DELETE",
       }).then(() => {
-        setStaff(staff.filter((Staff) => Staff.id !== id));
+        setStaff(staff.filter((staff) => staff.id !== id));
       });
     } catch (err) {
       console.error(err.message);
@@ -19,7 +19,7 @@ const ListStaff = () => {
 
   const getStaff = async () => {
     try {
-      const response = await fetch(`https://attendancjyc-backend.herokuapp.com/personal/`);
+      const response = await fetch(`https://attendancjyc-backend.herokuapp.com/staff/`);
       const jsonData = await response.json();
       setStaff(jsonData);
     } catch (err) {
@@ -33,6 +33,7 @@ const ListStaff = () => {
   });
   const Wrapper = Fragment;
   return (
+    <HelmetProvider>
     <Wrapper>
       {" "}
       <table className="table mt-5 text-center">
@@ -41,32 +42,21 @@ const ListStaff = () => {
             <th>Id</th>
             <th>Nombre</th>
             <th>Especialidad</th>
-            <th>Editar Staff</th>
-            <th>Eliminar Staff</th>
           </tr>
         </thead>
         <tbody>
-          {staff.map((Personal) => (
-            <tr key={Personal.id}>
-              <td>{Personal.id}</td>
-              <td>{Personal.name_u}</td>
-              <td>{Personal.speciality}</td>
-              <td>
-                <EditStaff todo={Personal} />
-              </td>
-              <td>
-                <button
-                  className="btn btn-danger"
-                  onClick={() => deleteProducto(Personal.id)}
-                >
-                  Delete
-                </button>
-              </td>
+          
+          {staff.map((staffS, idx) => (
+            <tr key={idx}>
+              <td>{staffS.id}</td>
+              <td>{staffS.name_s}</td>
+              <td>{staffS.speciality}</td>
             </tr>
           ))}
         </tbody>
       </table>
     </Wrapper>
+    </HelmetProvider>
   );
 };
 

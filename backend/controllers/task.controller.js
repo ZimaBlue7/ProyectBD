@@ -20,7 +20,8 @@ const getAdmin = async (req, res) => {
 
 const getStudents = async (req, res) => {
   try {
-    const response = await pool.query("SELECT * FROM Users WHERE description = 'Estudiante' OR description = 'estudiante' ");
+    
+    const response = await pool.query("SELECT * FROM Students");
     const usuario = response.rows;
     res.send(usuario);
   } catch (error) {
@@ -52,9 +53,9 @@ const getStaff = async (req, res) => {
   try {
 
     const id = req.rows;
-    const response = await pool.query("SELECT * FROM Users WHERE description = 'Staff' OR description = 'staff' ");
-    const usuario = response.rows;
-    res.send(usuario);
+    const staff = await pool.query("SELECT * FROM Staff");
+    const personal = staff.rows;
+    res.send(personal);
 
   } catch (error) {
     res.status(500).json({
@@ -69,7 +70,6 @@ const getStaff = async (req, res) => {
 const autenticarUsers = async (req, res) => {
   try {
     const {usuario, password} = req.body;
-    console.log("body ", req.body.usuario);
     const response = await pool.query('SELECT * FROM Users WHERE (name_u = $1 OR email= $1) AND password = $2', [
       usuario,
       password
@@ -160,17 +160,15 @@ const addStaff = async (req, res) => {
 
 const addStudents = async (req, res) => {
   try {
-    const {identificacion, nombre, semester, programa, password, email, description} = req.body;
-    await pool.query('INSERT INTO Users (id, name_u, password, description, email) VALUES ($1, $2, $3, $4, $5)', [
-      identificacion, 
+    const {code, nombre, semester, programa, email} = req.body;
+    await pool.query("INSERT INTO Users (id, name_u, password, description, email) VALUES ($1, $2, 'defaultpass', 'Estudiante', $3)", [
+      code, 
       nombre, 
-      password,
-      description, 
       email
     ]);
 
-    await pool.query('INSERT INTO Students (id, semester, programa) VALUES ($1, $2, $3)', [
-      identificacion,
+    await pool.query('INSERT INTO Students (code, semester, programa) VALUES ($1, $2, $3)', [
+      code,
       semester, 
       programa
     ])
@@ -178,13 +176,7 @@ const addStudents = async (req, res) => {
     res.json({
       message: 'El Students se creo',
       data: {
-        identificacion, 
-        nombre, 
-        semester, 
-        programa, 
-        password, 
-        email, 
-        description
+        code, nombre, semester, programa, email
       }
     })
     
@@ -243,6 +235,35 @@ const updateCourse = async (req, res) => {
       data: {
         id,
         name
+      }
+    })
+    
+  } catch (error) {
+    res.status(500).json({
+      message: "Ha ocurrido un error al tratar de actualizar al curso",
+      data: [],
+      accion: "Actualizar curso",
+      error: error,
+    });
+  }
+}
+
+
+
+const updateStudent = async (req, res) => {
+  try {
+    const {id} = req.params;
+    const {programa, semester} = req.body;
+    await pool.query('UPDATE Students SET programa = $1, semester= $2 WHERE code = $3', [
+      programa,
+      semester,
+      id
+    ])
+
+    res.json({
+      message: 'El estudiante se actualizo',
+      data: {
+        programa, semester
       }
     })
     
@@ -323,7 +344,7 @@ const eliminarStaff = async (req, res) => {
     const {id} = req.params;
 
     await pool.query('DELETE FROM Users WHERE id = $1', [id])
-
+    await pool.query('DELETE FROM Staff WHERE id = $1', [id])
   } catch (error) {
     res.status(500).json({
       message: "Ha ocurrido un error al tratar de eliminar al Staff",
@@ -334,26 +355,45 @@ const eliminarStaff = async (req, res) => {
   }
 }
 
+
+const eliminarStudent = async (req, res) => {
+  try {
+    const {code} = req.params;
+    await pool.query('DELETE FROM Students WHERE code = $1', [code])
+    await pool.query('DELETE FROM Users WHERE id = $1', [code])
+  } catch (error) {
+    res.status(500).json({
+      message: "Ha ocurrido un error al tratar de eliminar al student",
+      data: [],
+      accion: "Eliminar Student",
+      error: error,
+    });
+  }
+}
+
 const updateStaff = async (req, res) => {
   try {
 
     const {id} = req.params;
-    const {nombre, password, email} = req.body;
+    const {name_s, speciality} = req.body;
 
-    await pool.query('UPDATE Users SET name_u = $1, password = $2, email = $3 WHERE id = $4', [
-      nombre, 
-      password, 
-      email,
+    await pool.query('UPDATE Users SET name_u = $1 WHERE id = $2', [
+      name_s,
+      id
+    ])
+
+    await pool.query('UPDATE Staff SET name_s = $1, speciality = $2 WHERE id = $3', [
+      name_s,
+      speciality,
       id
     ])
 
     res.json({
       message: 'El Staff se actualizo',
       data: {
-        id,
-        nombre, 
-        password, 
-        email
+        name_s, 
+        speciality,
+        id
       }
     })
 
@@ -382,6 +422,8 @@ module.exports = {
   updateCourse,
   eliminarAdmin, 
   eliminarCourse,
+  eliminarStudent,
   updateStaff,
+  updateStudent,
   eliminarStaff
 };

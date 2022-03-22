@@ -29,7 +29,7 @@ import styledt from 'styled-components';
 import { Helmet } from 'react-helmet'
 import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
-
+import {logout} from "./Logout";
 const TITLE = 'Administrador'
 
 const StyledBody = styledt.div`
@@ -133,6 +133,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 	}),
 );
 
+
 function Copyright(props) {
 	return (
 	  <Typography variant="body2" color="common.white" align="center" {...props}>
@@ -155,6 +156,13 @@ export default function Admin() {
         window.location = "/courses";
     };
 
+	const staff = () =>{
+        window.location = "/staff";
+    };
+
+	const students = () =>{
+        window.location = "/students";
+    };
 
 	const handleDrawerOpen = () => {
 		setOpen(true);
@@ -201,21 +209,21 @@ export default function Admin() {
 						<ListItemText primary="Crear curso" /></ListItemButton>
 				<ListItemButton>
 					<ListItemIcon>
-					<PersonAddIcon className={classes.icons}/>
+					<PersonAddIcon onClick={() => staff()} className={classes.icons}/>
 					</ListItemIcon>
-					<ListItemText primary="Agregar y ver personal" />
+					<ListItemText onClick={() => staff()} primary="Agregar y ver personal" />
 				</ListItemButton>
 				<ListItemButton>
 					<ListItemIcon>
-					<AccessibilityNewIcon className={classes.icons}/>
+					<AccessibilityNewIcon onClick={() => students()} className={classes.icons}/>
 					</ListItemIcon>
-					<ListItemText primary="Agregar y ver estudiantes" />
+					<ListItemText onClick={() => students()} primary="Agregar y ver estudiantes" />
 				</ListItemButton>
 				<ListItemButton>
 					<ListItemIcon>
-					<LoginIcon className={classes.icons}/>
+					<LoginIcon onClick={() => logout()} className={classes.icons}/>
 					</ListItemIcon>
-					<ListItemText primary="Cerrar sesión" />
+					<ListItemText onClick={() => logout()} primary="Cerrar sesión" />
 				</ListItemButton>
 				</List>
 				<Divider />		

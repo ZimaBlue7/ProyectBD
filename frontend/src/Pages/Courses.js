@@ -31,7 +31,7 @@ import { Helmet } from 'react-helmet'
 import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
 import AddCourse from '../Components/AddCourse';
-
+import {logout} from "./Logout";
 const TITLE = 'Agregar un curso'
 
 const StyledBody = styledt.div`
@@ -148,6 +148,7 @@ function Copyright(props) {
     );
 }
 
+
 export default function Courses() {
     const theme = useTheme();
     const [open, setOpen] = useState(false);
@@ -217,9 +218,9 @@ export default function Courses() {
                             </ListItemButton>
                             <ListItemButton>
                                 <ListItemIcon>
-                                    <LoginIcon className={classes.icons} />
+                                    <LoginIcon onClick={() => logout()} className={classes.icons} />
                                 </ListItemIcon>
-                                <ListItemText primary="Cerrar sesión" />
+                                <ListItemText onClick={() => logout()} primary="Cerrar sesión" />
                             </ListItemButton>
                         </List>
                         <Divider />

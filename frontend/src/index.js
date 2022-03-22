@@ -7,6 +7,7 @@ import Courses from './Pages/Courses';
 import Student from './Pages/Students';
 import {BrowserRouter as Router,Route, Routes} from "react-router-dom";
 import reportWebVitals from './reportWebVitals';
+import ListStudents from './Components/ListStudents';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -17,6 +18,7 @@ ReactDOM.render(
           <Route path='/admin' element={<Admin/>}/>
           <Route path='/courses' element={<Courses/>}/>
           <Route path='/students' element={<Student/>}/>
+          <Route path='/addst' element={<ListStudents/>}/>
         </Routes>
       </Router>
   </React.StrictMode>,

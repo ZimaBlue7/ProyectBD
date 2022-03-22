@@ -3,6 +3,9 @@ import { styled, useTheme } from '@mui/material/styles';
 import React, { useState } from 'react';
 import ListItemButton from '@mui/material/ListItemButton';
 import Box from '@mui/material/Box';
+import Fab from '@mui/material/Fab';
+import HomeIcon from '@mui/icons-material/Home';
+import Container from "@mui/material/Container";
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -23,11 +26,12 @@ import ListItemText from '@mui/material/ListItemText';
 import { makeStyles } from '@material-ui/core/styles';
 import '../Styles/students.css';
 import styledt from 'styled-components';
-import image from "../Images/std.png";
+import image from "../Images/fondo.png";
 import Swal from 'sweetalert2';
-import axios from 'axios'
 import { Helmet } from 'react-helmet'
-
+import ListStudents from '../Components/ListStudents';
+import AddStudent from '../Components/AddStudent';
+import {logout} from "./Logout";
 
 const drawerWidth = 280;
 
@@ -53,15 +57,19 @@ const useStyles = makeStyles(theme => ({
 		height: '100vh',
 	},
 	typography: {
-		color: "#0B1CAD",
+		color: "#000000",
 		fontFamily: 'Open Sans Condensed',
 	},
 	icon: {
-		color: "#0B1CAD",
+		color: "#000000",
 		fontSize: "20em"
 	}
 
 }));
+
+const home = () =>{
+    window.location = "/students";
+  }
 
 
 const openedMixin = (theme) => ({
@@ -139,17 +147,7 @@ export default function Students() {
 
 	const handleSubmit = async (e) => {
 
-
 	};
-
-	const verify = async () => {
-		const res = await axios.post('https://attendancjyc-backend.herokuapp.com/login/', body);
-		console.log(res.data[0]);
-  
-		if(res.data[0].description != "Estudiante"){
-		  console.log("no es un estudiante");
-		}
-	}
 
 	const handleDrawerOpen = () => {
 		setOpen(true);
@@ -213,6 +211,7 @@ export default function Students() {
 	};
 
 	return (
+		<Container component="main" maxWidth="s">
 		<StyledBody>
 			<Helmet><title>{TITLE}</title> </Helmet>
 			<Box sx={{ display: 'flex' }} >
@@ -228,7 +227,7 @@ export default function Students() {
 								...(open && { display: 'none' }),
 							}}
 						>
-							<MenuIcon style={{ color: '#0B1CAD' }} />
+							<MenuIcon style={{ color: '#000000' }} />
 						</IconButton>
 						<Typography variant="h5" noWrap component="div" className={classes.typography}>
 							Estudiantes
@@ -238,7 +237,7 @@ export default function Students() {
 				<Drawer variant="permanent" open={open} >
 					<DrawerHeader >
 						<IconButton onClick={handleDrawerClose}>
-							{theme.direction === 'rtl' ? <ChevronRightIcon style={{ color: '#0B1CAD' }} /> : <ChevronLeftIcon style={{ color: '#0B1CAD' }} />}
+							{theme.direction === 'rtl' ? <ChevronRightIcon style={{ color: '#000000' }} /> : <ChevronLeftIcon style={{ color: '#000000' }} />}
 						</IconButton>
 					</DrawerHeader>
 					<Divider />
@@ -264,14 +263,23 @@ export default function Students() {
 						</ListItemButton>
 						<ListItemButton>
 							<ListItemIcon>
-								<LoginIcon className={classes.icon} />
+								<LoginIcon onClick={() => logout()}  className={classes.icon} />
 							</ListItemIcon>
-							<ListItemText primary="Cerrar sesión" />
+							<ListItemText onClick={() => logout()}  primary="Cerrar sesión" />
 						</ListItemButton>
 					</List>
 					<Divider />
 				</Drawer>
+				<section className="table">
+				<AddStudent />
+		  <ListStudents />
+		  <AddStudent />
+		  <Fab color="primary">
+                            <HomeIcon onClick={home} />
+                        </Fab>
+        </section>
 			</Box>
 		</StyledBody>
+		</Container>
 	);
 }

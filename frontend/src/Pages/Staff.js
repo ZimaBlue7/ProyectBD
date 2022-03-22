@@ -10,6 +10,7 @@ import "../Styles/admin.css";
 import Swal from "sweetalert2";
 import AddStaff from "../Components/AddStaff.js";
 import ListStaff from "../Components/ListStaff.js";
+import ListStudents from "../Components/ListStudents";
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar from '@mui/material/AppBar';
@@ -31,7 +32,7 @@ import styledt from 'styled-components';
 import { Helmet } from 'react-helmet'
 import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
-
+import {logout} from "./Logout";
 const TITLE = 'Personal'
 
 const StyledBody = styledt.div`
@@ -168,21 +169,7 @@ export default function Staff() {
 		setOpen(false);
 	};
 	const enrollStudent = async () => {
-		const { value: formValues } = await Swal.fire({
-			title: 'Agregar estudiante',
-			html:
-			  '<input id="swal-input1"  placeholder="Nombre estudiante" class="swal2-input">' +
-			  '<input id="swal-input2"  placeholder="Codigo estudiante" class="swal2-input">',
-			focusConfirm: false
-			
-		  })
-		  
-		  if(formValues[0] === "" || formValues[1] === ""){
-			  Swal.fire("Por favor llene todos los campos") // revisar
-		  }
-		  if (formValues) {
-			Swal.fire("Datos agregados correctamente")
-		  }
+		window.location = "/students";
 	
 	};
 	
@@ -334,30 +321,30 @@ export default function Staff() {
 				<List className={classes.icon}>
 					<ListItemButton onClick={(e) => handleSubmit(e)}>
 						<ListItemIcon ><AccountBoxIcon onClick={enrollStudent} className={classes.icon} /></ListItemIcon>
-						<ListItemText primary="Inscribir estudiantes" /></ListItemButton>
+						<ListItemText onClick={enrollStudent} primary="Inscribir estudiantes" /></ListItemButton>
 				<ListItemButton>
 					<ListItemIcon>
 					<QuestionMarkIcon className={classes.icon} onClick={addquestion} />
 					</ListItemIcon>
-					<ListItemText primary="Crear preguntas" />
+					<ListItemText onClick={addquestion} primary="Crear preguntas" />
 				</ListItemButton>
                 <ListItemButton>
 					<ListItemIcon>
 					<QuizIcon className={classes.icon} onClick={crearPrueba} />
 					</ListItemIcon>
-					<ListItemText primary="Crear pruebas" />
+					<ListItemText onClick={crearPrueba} primary="Crear pruebas" />
 				</ListItemButton>
                 <ListItemButton>
 					<ListItemIcon>
 					<WidgetsIcon className={classes.icon} onClick={crearListaOpcion} />
 					</ListItemIcon>
-					<ListItemText primary="Crear lista de opciones" />
+					<ListItemText onClick={crearListaOpcion} primary="Crear lista de opciones" />
 				</ListItemButton>
 				<ListItemButton >
 					<ListItemIcon>
-					<LoginIcon className={classes.icon}  />
+					<LoginIcon onClick={() => logout()} className={classes.icon}  />
 					</ListItemIcon>
-					<ListItemText primary="Cerrar sesion" />
+					<ListItemText primary="Cerrar sesion" onClick={() => logout()} />
 				</ListItemButton >
 				</List>
 				<Divider />				

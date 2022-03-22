@@ -67,6 +67,7 @@ const Login = () => {
 
       const res = await axios.post('https://attendancjyc-backend.herokuapp.com/login/', body);
       console.log(res.data[0])
+    
       if (res.data.length > 0) {
 
         Swal.fire({
@@ -84,7 +85,7 @@ const Login = () => {
             showConfirmButton: false,
             timer: 3000,
           }).then(function () {
-
+            window.localStorage.setItem("usuarioattendance", JSON.stringify(res.data[0]));
             if (res.data[0].description == "Administrador" || res.data[0].description == "administrador") {
               window.location = "/admin";
             }else if (res.data[0].description == "Estudiante" || res.data[0].description == "Estudiante") {

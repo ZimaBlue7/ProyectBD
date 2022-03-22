@@ -1,10 +1,10 @@
 import React, { Fragment, useEffect, useState } from "react";
-import AddCourse from "./AddCourse";
+import EditStudent from "./EditStudent";
 
 const ListStudents = () => {
   const [student, setStudent] = useState([]);
 
-  const deleteCourse = async (id) => {
+  const deleteStudent = async (id) => {
     try {
       await fetch('https://attendancjyc-backend.herokuapp.com/student/' + id, {
         method: "DELETE",
@@ -16,9 +16,10 @@ const ListStudents = () => {
     }
   };
 
+
   const getStudent = async () => {
     try {
-      const response = await fetch(`https://attendancjyc-backend.herokuapp.com/student/`);
+      const response = await fetch('https://attendancjyc-backend.herokuapp.com/student/');
       const jsonData = await response.json();
       setStudent(jsonData);
     } catch (err) {
@@ -36,31 +37,33 @@ const ListStudents = () => {
         <thead>
           <tr>
             <th>Codigo</th>
-            <th>Programa</th>
             <th>Semestre</th>
+            <th>Programa</th>
+            <th>Editar</th>
+            <th>Eliminar</th>
           </tr>
         </thead>
         <tbody>
-          {student.map((student) => (
-            <tr key={student.code}>
-              <td>{student.programa}</td>
-              <td>{student.semester}</td>
+          {student.map((students) => (
+            <tr key={students.code}>
+              <td>{students.code}</td>
+              <td>{students.semester}</td>
+              <td>{students.programa}</td>
               <td>
-                <EditAdmin todo={student} />
+              <EditStudent todo={students} />
               </td>
               <td>
                 <button
                   className="btn btn-danger"
-                  onClick={() => deleteCourse(student.id)}
+                  onClick={() => deleteStudent(students.code)}
                 >
-                  Eliminar curso
+                  Eliminar
                 </button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      <AddCourse />
     </Fragment>
   );
 };
